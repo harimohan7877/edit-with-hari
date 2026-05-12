@@ -1,9 +1,13 @@
 import { Resend } from "resend";
 import { ContactFormData } from "@/types";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy");
 
 export async function sendContactEmail(data: ContactFormData) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn("RESEND_API_KEY not configured - email skipped");
+    return { success: false, error: "Email not configured" };
+  }
   try {
     await resend.emails.send({
       from: process.env.EMAIL_FROM || "noreply@editwithhari.com",
@@ -30,6 +34,10 @@ export async function sendContactEmail(data: ContactFormData) {
 }
 
 export async function sendConfirmationEmail(data: ContactFormData) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn("RESEND_API_KEY not configured - confirmation email skipped");
+    return { success: false, error: "Email not configured" };
+  }
   try {
     await resend.emails.send({
       from: process.env.EMAIL_FROM || "noreply@editwithhari.com",

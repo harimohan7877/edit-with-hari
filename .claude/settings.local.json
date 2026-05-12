@@ -6,7 +6,15 @@
       "Bash(npx prisma *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Initial commit - Edit With Hari portfolio *)"
+      "Bash(git commit -m 'Initial commit - Edit With Hari portfolio *)",
+      "Bash(gh auth *)",
+      "Bash(where gh *)",
+      "Bash(gh --version)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(vercel --yes)",
+      "Bash(git commit *)"
     ]
   }
 }
