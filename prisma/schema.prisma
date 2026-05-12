@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  description     String
+  shortDescription String
+  category        String
+  client          String
+  year            Int
+  duration        String
+  videoUrl        String
+  thumbnailUrl    String
+  images          String[]
+  tools           String[]
+  featured        Boolean  @default(false)
+  published       Boolean  @default(false)
+  views           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  testimonials    Testimonial[]
+
+  @@index([category])
+  @@index([published])
+  @@index([featured])
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String
+  slug  String @unique
+  color String
+  icon  String?
+}
+
+model Testimonial {
+  id           String   @id @default(cuid())
+  clientName   String
+  clientRole   String
+  clientCompany String
+  clientAvatar String
+  content      String
+  rating       Int      @default(5)
+  projectId    String?
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  project      Project? @relation(fields: [projectId], references: [id])
+}
+
+model Inquiry {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String?
+  company    String?
+  projectType String
+  budget     String
+  deadline   String?
+  message    String
+  status     String   @default("new")
+  createdAt  DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id              String  @id @default(cuid())
+  showreelUrl     String
+  heroTitle       String
+  heroSubtitle    String
+  email           String
+  phone           String
+  instagram       String?
+  youtube         String?
+  twitter         String?
+  metaTitle       String
+  metaDescription String
+}
